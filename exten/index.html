@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PageSumm — client-side AI</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+  <script src="lib/axios.min.js"></script>
+  <script src="lib/pdf.min.mjs" type="module"></script>
+  <script src="lib/mammoth.browser.min.js"></script>
+
+</head>
+<body>
+  <main class="container" role="main" aria-labelledby="appTitle">
+    <header class="topbar">
+      <div class="title-area">
+        <h1 id="appTitle">PageSumm AI</h1>
+        <p class="tagline">Summarize, upload, and chat — entirely client-side.</p>
+      </div>
+      <button id="expandBtn" class="btn icon-btn" title="Open in new tab">&#x26F6;</button>
+    </header>
+
+    <section class="controls card" aria-labelledby="controlsLabel">
+      <h2 id="controlsLabel" class="card-title">Summarize Content</h2>
+      
+      <button id="summarizePageBtn" class="btn primary" title="Summarize this page" style="width: 100%;">Summarize Active Tab</button>
+      
+      <textarea id="textInput" class="text-input" placeholder="Or paste text here to summarize..."></textarea>
+      <button id="summarizeTextBtn" class="btn" style="width: 100%; margin-top: 8px;">Summarize Text</button>
+
+
+      <div class="options" aria-hidden="false" style="margin-top: 12px;">
+        <label>Style:
+          <select id="summaryType">
+            <option value="key-points">Key-points</option>
+            <option value="tldr">TL;DR</option>
+            <option value="teaser">Teaser</option>
+            <option value="headline">Headline</option>
+          </select>
+        </label>
+        <label>Length:
+          <select id="summaryLength">
+            <option value="short">Short</option>
+            <option value="medium" selected>Medium</option>
+            <option value="long">Long</option>
+          </select>
+        </label>
+        <button id="downloadModelBtn" class="btn">Ensure model</button>
+      </div>
+
+      <div id="statusBar" class="status">Idle</div>
+    </section>
+
+    <section class="results card" aria-labelledby="resultsLabel">
+      <div class="result-header">
+        <h2 id="resultsLabel">Summary</h2>
+        <div class="result-actions">
+          <button id="copySummary" class="btn" title="Copy summary">Copy</button>
+          <button id="clearMemory" class="btn" title="Clear memory">Clear All</button>
+        </div>
+      </div>
+      <pre id="summaryOutput" class="output" aria-live="polite" tabindex="0"></pre>
+    </section>
+
+    <section class="qa card" aria-labelledby="qaLabel">
+      <div class="qa-header">
+          <h2 id="qaLabel">Ask Anything</h2>
+          <button id="clearChatBtn" class="btn" title="Clear chat history">Clear Chat</button>
+      </div>
+      
+      <label class="toggle-row">
+        <input type="checkbox" id="useKnowledgebase" />
+        <span>Use Knowledgebase (uploaded/summarized content)</span>
+      </label>
+
+      <div class="qa-row">
+        <input id="userQuestion" placeholder="Ask about the content or anything else..." autocomplete="off" />
+        <button id="askBtn" class="btn primary">Ask</button>
+      </div>
+
+      <div class="conversation">
+        <ul id="conversationList" class="list" aria-live="polite"></ul>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <small>Built with Chrome Summarizer & Prompt APIs — no backend. See console for debug traces.</small>
+    </footer>
+  </main>
+  
+  <div id="memoryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="memoryTitle">
+  </div>
+
+  <script type="module" src="app.js"></script>
+    <script type="module" src="chat.js"></script>
+    <script type="module" src="rag.js"></script>
+</body>
+</html>
